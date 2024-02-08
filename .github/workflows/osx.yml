@@ -1,0 +1,1852 @@
+jobs:
+  stage_0_job_0:
+    name: rosidl-typesupport-fastrtps-cpp urdf qt-gui-cpp
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosidl-typesupport-fastrtps-cpp ros-humble-urdf ros-humble-qt-gui-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosidl-typesupport-fastrtps-cpp ros-humble-urdf
+          ros-humble-qt-gui-cpp
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_1_job_1:
+    name: rosidl-typesupport-fastrtps-c kdl-parser sdformat-urdf turtlebot3-description
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosidl-typesupport-fastrtps-c ros-humble-kdl-parser ros-humble-sdformat-urdf
+        ros-humble-turtlebot3-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosidl-typesupport-fastrtps-c ros-humble-kdl-parser
+          ros-humble-sdformat-urdf ros-humble-turtlebot3-description
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_2_job_2:
+    name: rosidl-typesupport-c rosidl-typesupport-cpp rosidl-generator-py
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosidl-typesupport-c ros-humble-rosidl-typesupport-cpp
+        ros-humble-rosidl-generator-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosidl-typesupport-c ros-humble-rosidl-typesupport-cpp
+          ros-humble-rosidl-generator-py
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_3_job_3:
+    name: rosidl-default-runtime rosidl-default-generators
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosidl-default-runtime ros-humble-rosidl-default-generators
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosidl-default-runtime ros-humble-rosidl-default-generators
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_4_job_4:
+    name: unique-identifier-msgs builtin-interfaces rmw-dds-common lifecycle-msgs
+      std-srvs
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-unique-identifier-msgs ros-humble-builtin-interfaces
+        ros-humble-rmw-dds-common ros-humble-lifecycle-msgs ros-humble-std-srvs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-unique-identifier-msgs ros-humble-builtin-interfaces
+          ros-humble-rmw-dds-common ros-humble-lifecycle-msgs ros-humble-std-srvs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_5_job_5:
+    name: action-msgs rmw-fastrtps-shared-cpp rmw-connextdds-common rmw-cyclonedds-cpp
+      rcl-interfaces
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-action-msgs ros-humble-rmw-fastrtps-shared-cpp ros-humble-rmw-connextdds-common
+        ros-humble-rmw-cyclonedds-cpp ros-humble-rcl-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-action-msgs ros-humble-rmw-fastrtps-shared-cpp
+          ros-humble-rmw-connextdds-common ros-humble-rmw-cyclonedds-cpp ros-humble-rcl-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_5_job_6:
+    name: std-msgs statistics-msgs rosgraph-msgs controller-manager-msgs rosbag2-interfaces
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-std-msgs ros-humble-statistics-msgs ros-humble-rosgraph-msgs
+        ros-humble-controller-manager-msgs ros-humble-rosbag2-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-std-msgs ros-humble-statistics-msgs ros-humble-rosgraph-msgs
+          ros-humble-controller-manager-msgs ros-humble-rosbag2-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_5_job_7:
+    name: rosbridge-msgs pendulum-msgs
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosbridge-msgs ros-humble-pendulum-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosbridge-msgs ros-humble-pendulum-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_6_job_8:
+    name: test-msgs rmw-connextdds composition-interfaces geometry-msgs bond
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_5
+    - stage_5_job_6
+    - stage_5_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-test-msgs ros-humble-rmw-connextdds ros-humble-composition-interfaces
+        ros-humble-geometry-msgs ros-humble-bond
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-test-msgs ros-humble-rmw-connextdds ros-humble-composition-interfaces
+          ros-humble-geometry-msgs ros-humble-bond
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_6_job_9:
+    name: actionlib-msgs ackermann-msgs actuator-msgs example-interfaces ros2cli-test-interfaces
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_5
+    - stage_5_job_6
+    - stage_5_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-actionlib-msgs ros-humble-ackermann-msgs ros-humble-actuator-msgs
+        ros-humble-example-interfaces ros-humble-ros2cli-test-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-actionlib-msgs ros-humble-ackermann-msgs ros-humble-actuator-msgs
+          ros-humble-example-interfaces ros-humble-ros2cli-test-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_6_job_10:
+    name: action-tutorials-interfaces velodyne-msgs rosapi-msgs turtlebot3-msgs rosbag2-storage-mcap-testdata
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_5
+    - stage_5_job_6
+    - stage_5_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-action-tutorials-interfaces ros-humble-velodyne-msgs
+        ros-humble-rosapi-msgs ros-humble-turtlebot3-msgs ros-humble-rosbag2-storage-mcap-testdata
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-action-tutorials-interfaces ros-humble-velodyne-msgs
+          ros-humble-rosapi-msgs ros-humble-turtlebot3-msgs ros-humble-rosbag2-storage-mcap-testdata
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_6_job_11:
+    name: apriltag-msgs
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_5
+    - stage_5_job_6
+    - stage_5_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-apriltag-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-apriltag-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_7_job_12:
+    name: rmw-fastrtps-dynamic-cpp rmw-fastrtps-cpp sensor-msgs rosidl-runtime-py
+      tf2
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_8
+    - stage_6_job_9
+    - stage_6_job_10
+    - stage_6_job_11
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rmw-fastrtps-dynamic-cpp ros-humble-rmw-fastrtps-cpp
+        ros-humble-sensor-msgs ros-humble-rosidl-runtime-py ros-humble-tf2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rmw-fastrtps-dynamic-cpp ros-humble-rmw-fastrtps-cpp
+          ros-humble-sensor-msgs ros-humble-rosidl-runtime-py ros-humble-tf2
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_7_job_13:
+    name: tf2-msgs shape-msgs nav-msgs trajectory-msgs diagnostic-msgs
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_8
+    - stage_6_job_9
+    - stage_6_job_10
+    - stage_6_job_11
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-tf2-msgs ros-humble-shape-msgs ros-humble-nav-msgs ros-humble-trajectory-msgs
+        ros-humble-diagnostic-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-tf2-msgs ros-humble-shape-msgs ros-humble-nav-msgs
+          ros-humble-trajectory-msgs ros-humble-diagnostic-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_7_job_14:
+    name: nav-2d-msgs geographic-msgs vision-msgs ros-gz-interfaces cartographer-ros-msgs
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_8
+    - stage_6_job_9
+    - stage_6_job_10
+    - stage_6_job_11
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav-2d-msgs ros-humble-geographic-msgs ros-humble-vision-msgs
+        ros-humble-ros-gz-interfaces ros-humble-cartographer-ros-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav-2d-msgs ros-humble-geographic-msgs ros-humble-vision-msgs
+          ros-humble-ros-gz-interfaces ros-humble-cartographer-ros-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_8_job_15:
+    name: rmw-implementation visualization-msgs stereo-msgs sensor-msgs-py map-msgs
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_12
+    - stage_7_job_13
+    - stage_7_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rmw-implementation ros-humble-visualization-msgs ros-humble-stereo-msgs
+        ros-humble-sensor-msgs-py ros-humble-map-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rmw-implementation ros-humble-visualization-msgs
+          ros-humble-stereo-msgs ros-humble-sensor-msgs-py ros-humble-map-msgs
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_8_job_16:
+    name: control-msgs dwb-msgs tf2-eigen-kdl cv-bridge image-geometry
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_12
+    - stage_7_job_13
+    - stage_7_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-control-msgs ros-humble-dwb-msgs ros-humble-tf2-eigen-kdl
+        ros-humble-cv-bridge ros-humble-image-geometry
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-control-msgs ros-humble-dwb-msgs ros-humble-tf2-eigen-kdl
+          ros-humble-cv-bridge ros-humble-image-geometry
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_8_job_17:
+    name: pcl-msgs gazebo-msgs ros-ign-interfaces
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_12
+    - stage_7_job_13
+    - stage_7_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-pcl-msgs ros-humble-gazebo-msgs ros-humble-ros-ign-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-pcl-msgs ros-humble-gazebo-msgs ros-humble-ros-ign-interfaces
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_9_job_18:
+    name: rcl common-interfaces vision-opencv
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_15
+    - stage_8_job_16
+    - stage_8_job_17
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rcl ros-humble-common-interfaces ros-humble-vision-opencv
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rcl ros-humble-common-interfaces ros-humble-vision-opencv
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_10_job_19:
+    name: rcl-lifecycle rcl-action libstatistics-collector
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rcl-lifecycle ros-humble-rcl-action ros-humble-libstatistics-collector
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rcl-lifecycle ros-humble-rcl-action ros-humble-libstatistics-collector
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_11_job_20:
+    name: rclpy rclcpp
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_19
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rclpy ros-humble-rclcpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rclpy ros-humble-rclcpp
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_21:
+    name: launch-ros rclcpp-lifecycle ros2cli rclcpp-components rclcpp-action
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-launch-ros ros-humble-rclcpp-lifecycle ros-humble-ros2cli
+        ros-humble-rclcpp-components ros-humble-rclcpp-action
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-launch-ros ros-humble-rclcpp-lifecycle ros-humble-ros2cli
+          ros-humble-rclcpp-components ros-humble-rclcpp-action
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_22:
+    name: tf2-py rsl rosbag2-test-common laser-geometry filters
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-tf2-py ros-humble-rsl ros-humble-rosbag2-test-common
+        ros-humble-laser-geometry ros-humble-filters
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-tf2-py ros-humble-rsl ros-humble-rosbag2-test-common
+          ros-humble-laser-geometry ros-humble-filters
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_23:
+    name: behaviortree-cpp-v3 rqt-gui camera-calibration-parsers rqt-py-common rqt-gui-cpp
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-behaviortree-cpp-v3 ros-humble-rqt-gui ros-humble-camera-calibration-parsers
+        ros-humble-rqt-py-common ros-humble-rqt-gui-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-behaviortree-cpp-v3 ros-humble-rqt-gui ros-humble-camera-calibration-parsers
+          ros-humble-rqt-py-common ros-humble-rqt-gui-cpp
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_24:
+    name: rosbridge-test-msgs ros-gz-sim hls-lfcd-lds-driver teleop-twist-keyboard
+      dummy-sensors
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosbridge-test-msgs ros-humble-ros-gz-sim ros-humble-hls-lfcd-lds-driver
+        ros-humble-teleop-twist-keyboard ros-humble-dummy-sensors
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosbridge-test-msgs ros-humble-ros-gz-sim ros-humble-hls-lfcd-lds-driver
+          ros-humble-teleop-twist-keyboard ros-humble-dummy-sensors
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_25:
+    name: dummy-map-server demo-nodes-py quality-of-service-demo-py intra-process-demo
+      examples-rclpy-minimal-subscriber
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-dummy-map-server ros-humble-demo-nodes-py ros-humble-quality-of-service-demo-py
+        ros-humble-intra-process-demo ros-humble-examples-rclpy-minimal-subscriber
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-dummy-map-server ros-humble-demo-nodes-py ros-humble-quality-of-service-demo-py
+          ros-humble-intra-process-demo ros-humble-examples-rclpy-minimal-subscriber
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_26:
+    name: examples-rclpy-minimal-service examples-rclpy-minimal-publisher examples-rclpy-minimal-client
+      examples-rclpy-minimal-action-server examples-rclpy-minimal-action-client
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-examples-rclpy-minimal-service ros-humble-examples-rclpy-minimal-publisher
+        ros-humble-examples-rclpy-minimal-client ros-humble-examples-rclpy-minimal-action-server
+        ros-humble-examples-rclpy-minimal-action-client
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-examples-rclpy-minimal-service ros-humble-examples-rclpy-minimal-publisher
+          ros-humble-examples-rclpy-minimal-client ros-humble-examples-rclpy-minimal-action-server
+          ros-humble-examples-rclpy-minimal-action-client
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_27:
+    name: examples-rclpy-executors examples-rclcpp-multithreaded-executor examples-rclcpp-minimal-timer
+      examples-rclcpp-minimal-service examples-rclcpp-minimal-publisher
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-examples-rclpy-executors ros-humble-examples-rclcpp-multithreaded-executor
+        ros-humble-examples-rclcpp-minimal-timer ros-humble-examples-rclcpp-minimal-service
+        ros-humble-examples-rclcpp-minimal-publisher
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-examples-rclpy-executors ros-humble-examples-rclcpp-multithreaded-executor
+          ros-humble-examples-rclcpp-minimal-timer ros-humble-examples-rclcpp-minimal-service
+          ros-humble-examples-rclcpp-minimal-publisher
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_12_job_28:
+    name: examples-rclcpp-minimal-client action-tutorials-py turtlebot3-teleop turtlebot3-example
+      plotjuggler
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-examples-rclcpp-minimal-client ros-humble-action-tutorials-py
+        ros-humble-turtlebot3-teleop ros-humble-turtlebot3-example ros-humble-plotjuggler
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-examples-rclcpp-minimal-client ros-humble-action-tutorials-py
+          ros-humble-turtlebot3-teleop ros-humble-turtlebot3-example ros-humble-plotjuggler
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_29:
+    name: launch-testing-ros message-filters tf2-ros-py nav2-common parameter-traits
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-launch-testing-ros ros-humble-message-filters ros-humble-tf2-ros-py
+        ros-humble-nav2-common ros-humble-parameter-traits
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-launch-testing-ros ros-humble-message-filters
+          ros-humble-tf2-ros-py ros-humble-nav2-common ros-humble-parameter-traits
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_30:
+    name: bondcpp diagnostic-updater rosbag2-storage hardware-interface realtime-tools
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-bondcpp ros-humble-diagnostic-updater ros-humble-rosbag2-storage
+        ros-humble-hardware-interface ros-humble-realtime-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-bondcpp ros-humble-diagnostic-updater ros-humble-rosbag2-storage
+          ros-humble-hardware-interface ros-humble-realtime-tools
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_31:
+    name: kinematics-interface joy ros2lifecycle-test-fixtures rqt-gui-py camera-info-manager
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-kinematics-interface ros-humble-joy ros-humble-ros2lifecycle-test-fixtures
+        ros-humble-rqt-gui-py ros-humble-camera-info-manager
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-kinematics-interface ros-humble-joy ros-humble-ros2lifecycle-test-fixtures
+          ros-humble-rqt-gui-py ros-humble-camera-info-manager
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_32:
+    name: ros-gz-bridge ros2multicast joint-limits rosbridge-library ros-ign-gazebo
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros-gz-bridge ros-humble-ros2multicast ros-humble-joint-limits
+        ros-humble-rosbridge-library ros-humble-ros-ign-gazebo
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros-gz-bridge ros-humble-ros2multicast ros-humble-joint-limits
+          ros-humble-rosbridge-library ros-humble-ros-ign-gazebo
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_33:
+    name: velodyne-laserscan turtlesim topic-monitor quality-of-service-demo-cpp examples-rclcpp-minimal-subscriber
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-velodyne-laserscan ros-humble-turtlesim ros-humble-topic-monitor
+        ros-humble-quality-of-service-demo-cpp ros-humble-examples-rclcpp-minimal-subscriber
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-velodyne-laserscan ros-humble-turtlesim ros-humble-topic-monitor
+          ros-humble-quality-of-service-demo-cpp ros-humble-examples-rclcpp-minimal-subscriber
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_34:
+    name: examples-rclcpp-minimal-composition examples-rclcpp-minimal-action-server
+      examples-rclcpp-minimal-action-client depthimage-to-laserscan action-tutorials-cpp
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-examples-rclcpp-minimal-composition ros-humble-examples-rclcpp-minimal-action-server
+        ros-humble-examples-rclcpp-minimal-action-client ros-humble-depthimage-to-laserscan
+        ros-humble-action-tutorials-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-examples-rclcpp-minimal-composition ros-humble-examples-rclcpp-minimal-action-server
+          ros-humble-examples-rclcpp-minimal-action-client ros-humble-depthimage-to-laserscan
+          ros-humble-action-tutorials-cpp
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_13_job_35:
+    name: foxglove-bridge
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_21
+    - stage_12_job_22
+    - stage_12_job_23
+    - stage_12_job_24
+    - stage_12_job_25
+    - stage_12_job_26
+    - stage_12_job_27
+    - stage_12_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-foxglove-bridge
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-foxglove-bridge
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_36:
+    name: ros2topic tf2-ros nav2-msgs generate-parameter-library ros2test
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros2topic ros-humble-tf2-ros ros-humble-nav2-msgs ros-humble-generate-parameter-library
+        ros-humble-ros2test
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros2topic ros-humble-tf2-ros ros-humble-nav2-msgs
+          ros-humble-generate-parameter-library ros-humble-ros2test
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_37:
+    name: nav2-voxel-grid rosbag2-storage-default-plugins image-transport ros2pkg
+      ros2service
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-voxel-grid ros-humble-rosbag2-storage-default-plugins
+        ros-humble-image-transport ros-humble-ros2pkg ros-humble-ros2service
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-voxel-grid ros-humble-rosbag2-storage-default-plugins
+          ros-humble-image-transport ros-humble-ros2pkg ros-humble-ros2service
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_38:
+    name: ros2node controller-interface kinematics-interface-kdl teleop-twist-joy
+      pcl-conversions
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros2node ros-humble-controller-interface ros-humble-kinematics-interface-kdl
+        ros-humble-teleop-twist-joy ros-humble-pcl-conversions
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros2node ros-humble-controller-interface ros-humble-kinematics-interface-kdl
+          ros-humble-teleop-twist-joy ros-humble-pcl-conversions
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_39:
+    name: ros2interface ros2doctor ros2action rqt-console camera-calibration
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros2interface ros-humble-ros2doctor ros-humble-ros2action
+        ros-humble-rqt-console ros-humble-camera-calibration
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros2interface ros-humble-ros2doctor ros-humble-ros2action
+          ros-humble-rqt-console ros-humble-camera-calibration
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_40:
+    name: transmission-interface rqt-topic rqt-plot tf2-tools ros-ign-bridge
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-transmission-interface ros-humble-rqt-topic ros-humble-rqt-plot
+        ros-humble-tf2-tools ros-humble-ros-ign-bridge
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-transmission-interface ros-humble-rqt-topic ros-humble-rqt-plot
+          ros-humble-tf2-tools ros-humble-ros-ign-bridge
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_41:
+    name: rqt-shell rqt-service-caller rqt-py-console rqt-publisher rqt-graph
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rqt-shell ros-humble-rqt-service-caller ros-humble-rqt-py-console
+        ros-humble-rqt-publisher ros-humble-rqt-graph
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rqt-shell ros-humble-rqt-service-caller ros-humble-rqt-py-console
+          ros-humble-rqt-publisher ros-humble-rqt-graph
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_42:
+    name: logging-demo image-tools demo-nodes-cpp-native demo-nodes-cpp composition
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-logging-demo ros-humble-image-tools ros-humble-demo-nodes-cpp-native
+        ros-humble-demo-nodes-cpp ros-humble-composition
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-logging-demo ros-humble-image-tools ros-humble-demo-nodes-cpp-native
+          ros-humble-demo-nodes-cpp ros-humble-composition
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_14_job_43:
+    name: rosbag2-storage-mcap
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_29
+    - stage_13_job_30
+    - stage_13_job_31
+    - stage_13_job_32
+    - stage_13_job_33
+    - stage_13_job_34
+    - stage_13_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosbag2-storage-mcap
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosbag2-storage-mcap
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_44:
+    name: joint-state-publisher robot-state-publisher tf2-geometry-msgs tf2-kdl tf2-eigen
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-joint-state-publisher ros-humble-robot-state-publisher
+        ros-humble-tf2-geometry-msgs ros-humble-tf2-kdl ros-humble-tf2-eigen
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-joint-state-publisher ros-humble-robot-state-publisher
+          ros-humble-tf2-geometry-msgs ros-humble-tf2-kdl ros-humble-tf2-eigen
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_45:
+    name: tf2-sensor-msgs ros-testing rosbag2-cpp ros2run ros2param
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-tf2-sensor-msgs ros-humble-ros-testing ros-humble-rosbag2-cpp
+        ros-humble-ros2run ros-humble-ros2param
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-tf2-sensor-msgs ros-humble-ros-testing ros-humble-rosbag2-cpp
+          ros-humble-ros2run ros-humble-ros2param
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_46:
+    name: control-toolbox nav2-simple-commander ros2launch image-proc laser-filters
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-control-toolbox ros-humble-nav2-simple-commander ros-humble-ros2launch
+        ros-humble-image-proc ros-humble-laser-filters
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-control-toolbox ros-humble-nav2-simple-commander
+          ros-humble-ros2launch ros-humble-image-proc ros-humble-laser-filters
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_47:
+    name: theora-image-transport compressed-image-transport compressed-depth-image-transport
+      ros2lifecycle image-view
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-theora-image-transport ros-humble-compressed-image-transport
+        ros-humble-compressed-depth-image-transport ros-humble-ros2lifecycle ros-humble-image-view
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-theora-image-transport ros-humble-compressed-image-transport
+          ros-humble-compressed-depth-image-transport ros-humble-ros2lifecycle ros-humble-image-view
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_48:
+    name: image-publisher rqt-image-view ros-gz-image tf2-bullet rqt-msg
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-image-publisher ros-humble-rqt-image-view ros-humble-ros-gz-image
+        ros-humble-tf2-bullet ros-humble-rqt-msg
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-image-publisher ros-humble-rqt-image-view ros-humble-ros-gz-image
+          ros-humble-tf2-bullet ros-humble-rqt-msg
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_49:
+    name: velodyne-pointcloud velodyne-driver rqt-reconfigure turtlebot3-node image-common
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-velodyne-pointcloud ros-humble-velodyne-driver ros-humble-rqt-reconfigure
+        ros-humble-turtlebot3-node ros-humble-image-common
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-velodyne-pointcloud ros-humble-velodyne-driver
+          ros-humble-rqt-reconfigure ros-humble-turtlebot3-node ros-humble-image-common
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_15_job_50:
+    name: apriltag-ros
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_36
+    - stage_14_job_37
+    - stage_14_job_38
+    - stage_14_job_39
+    - stage_14_job_40
+    - stage_14_job_41
+    - stage_14_job_42
+    - stage_14_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-apriltag-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-apriltag-ros
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_16_job_51:
+    name: nav2-util rviz-common interactive-markers rosbag2-compression controller-manager
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_44
+    - stage_15_job_45
+    - stage_15_job_46
+    - stage_15_job_47
+    - stage_15_job_48
+    - stage_15_job_49
+    - stage_15_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-util ros-humble-rviz-common ros-humble-interactive-markers
+        ros-humble-rosbag2-compression ros-humble-controller-manager
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-util ros-humble-rviz-common ros-humble-interactive-markers
+          ros-humble-rosbag2-compression ros-humble-controller-manager
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_16_job_52:
+    name: robot-localization gazebo-ros sros2 ros2component stereo-image-proc
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_44
+    - stage_15_job_45
+    - stage_15_job_46
+    - stage_15_job_47
+    - stage_15_job_48
+    - stage_15_job_49
+    - stage_15_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-robot-localization ros-humble-gazebo-ros ros-humble-sros2
+        ros-humble-ros2component ros-humble-stereo-image-proc
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-robot-localization ros-humble-gazebo-ros ros-humble-sros2
+          ros-humble-ros2component ros-humble-stereo-image-proc
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_16_job_53:
+    name: image-rotate depth-image-proc pcl-ros image-transport-plugins rosapi
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_44
+    - stage_15_job_45
+    - stage_15_job_46
+    - stage_15_job_47
+    - stage_15_job_48
+    - stage_15_job_49
+    - stage_15_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-image-rotate ros-humble-depth-image-proc ros-humble-pcl-ros
+        ros-humble-image-transport-plugins ros-humble-rosapi
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-image-rotate ros-humble-depth-image-proc ros-humble-pcl-ros
+          ros-humble-image-transport-plugins ros-humble-rosapi
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_16_job_54:
+    name: geometry2 rqt-srv rqt-action cartographer-ros velodyne
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_44
+    - stage_15_job_45
+    - stage_15_job_46
+    - stage_15_job_47
+    - stage_15_job_48
+    - stage_15_job_49
+    - stage_15_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-geometry2 ros-humble-rqt-srv ros-humble-rqt-action ros-humble-cartographer-ros
+        ros-humble-velodyne
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-geometry2 ros-humble-rqt-srv ros-humble-rqt-action
+          ros-humble-cartographer-ros ros-humble-velodyne
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_16_job_55:
+    name: ros-ign-image lifecycle dummy-robot-bringup
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_44
+    - stage_15_job_45
+    - stage_15_job_46
+    - stage_15_job_47
+    - stage_15_job_48
+    - stage_15_job_49
+    - stage_15_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros-ign-image ros-humble-lifecycle ros-humble-dummy-robot-bringup
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros-ign-image ros-humble-lifecycle ros-humble-dummy-robot-bringup
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_17_job_56:
+    name: nav2-map-server nav2-lifecycle-manager rviz-visual-testing-framework nav-2d-utils
+      rosbag2-compression-zstd
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_51
+    - stage_16_job_52
+    - stage_16_job_53
+    - stage_16_job_54
+    - stage_16_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-map-server ros-humble-nav2-lifecycle-manager ros-humble-rviz-visual-testing-framework
+        ros-humble-nav-2d-utils ros-humble-rosbag2-compression-zstd
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-map-server ros-humble-nav2-lifecycle-manager
+          ros-humble-rviz-visual-testing-framework ros-humble-nav-2d-utils ros-humble-rosbag2-compression-zstd
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_17_job_57:
+    name: nav2-behavior-tree forward-command-controller steering-controllers-library
+      joint-trajectory-controller nav2-velocity-smoother
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_51
+    - stage_16_job_52
+    - stage_16_job_53
+    - stage_16_job_54
+    - stage_16_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-behavior-tree ros-humble-forward-command-controller
+        ros-humble-steering-controllers-library ros-humble-joint-trajectory-controller
+        ros-humble-nav2-velocity-smoother
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-behavior-tree ros-humble-forward-command-controller
+          ros-humble-steering-controllers-library ros-humble-joint-trajectory-controller
+          ros-humble-nav2-velocity-smoother
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_17_job_58:
+    name: nav2-amcl tricycle-controller range-sensor-broadcaster joint-state-broadcaster
+      imu-sensor-broadcaster
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_51
+    - stage_16_job_52
+    - stage_16_job_53
+    - stage_16_job_54
+    - stage_16_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-amcl ros-humble-tricycle-controller ros-humble-range-sensor-broadcaster
+        ros-humble-joint-state-broadcaster ros-humble-imu-sensor-broadcaster
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-amcl ros-humble-tricycle-controller ros-humble-range-sensor-broadcaster
+          ros-humble-joint-state-broadcaster ros-humble-imu-sensor-broadcaster
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_17_job_59:
+    name: force-torque-sensor-broadcaster diff-drive-controller ros2controlcli gazebo-plugins
+      sros2-cmake
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_51
+    - stage_16_job_52
+    - stage_16_job_53
+    - stage_16_job_54
+    - stage_16_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-force-torque-sensor-broadcaster ros-humble-diff-drive-controller
+        ros-humble-ros2controlcli ros-humble-gazebo-plugins ros-humble-sros2-cmake
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-force-torque-sensor-broadcaster ros-humble-diff-drive-controller
+          ros-humble-ros2controlcli ros-humble-gazebo-plugins ros-humble-sros2-cmake
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_17_job_60:
+    name: ros2cli-common-extensions gazebo-ros2-control image-pipeline rosbridge-server
+      perception-pcl
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_51
+    - stage_16_job_52
+    - stage_16_job_53
+    - stage_16_job_54
+    - stage_16_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros2cli-common-extensions ros-humble-gazebo-ros2-control
+        ros-humble-image-pipeline ros-humble-rosbridge-server ros-humble-perception-pcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros2cli-common-extensions ros-humble-gazebo-ros2-control
+          ros-humble-image-pipeline ros-humble-rosbridge-server ros-humble-perception-pcl
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_17_job_61:
+    name: turtlebot3-cartographer
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_51
+    - stage_16_job_52
+    - stage_16_job_53
+    - stage_16_job_54
+    - stage_16_job_55
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-turtlebot3-cartographer
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-turtlebot3-cartographer
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_18_job_62:
+    name: nav2-costmap-2d rviz-default-plugins rosbag2-transport velocity-controllers
+      tricycle-steering-controller
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_56
+    - stage_17_job_57
+    - stage_17_job_58
+    - stage_17_job_59
+    - stage_17_job_60
+    - stage_17_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-costmap-2d ros-humble-rviz-default-plugins ros-humble-rosbag2-transport
+        ros-humble-velocity-controllers ros-humble-tricycle-steering-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-costmap-2d ros-humble-rviz-default-plugins
+          ros-humble-rosbag2-transport ros-humble-velocity-controllers ros-humble-tricycle-steering-controller
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_18_job_63:
+    name: position-controllers effort-controllers bicycle-steering-controller admittance-controller
+      ackermann-steering-controller
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_56
+    - stage_17_job_57
+    - stage_17_job_58
+    - stage_17_job_59
+    - stage_17_job_60
+    - stage_17_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-position-controllers ros-humble-effort-controllers ros-humble-bicycle-steering-controller
+        ros-humble-admittance-controller ros-humble-ackermann-steering-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-position-controllers ros-humble-effort-controllers
+          ros-humble-bicycle-steering-controller ros-humble-admittance-controller
+          ros-humble-ackermann-steering-controller
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_18_job_64:
+    name: ros2-control gazebo-ros-pkgs ros-core rosbridge-suite
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_56
+    - stage_17_job_57
+    - stage_17_job_58
+    - stage_17_job_59
+    - stage_17_job_60
+    - stage_17_job_61
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros2-control ros-humble-gazebo-ros-pkgs ros-humble-ros-core
+        ros-humble-rosbridge-suite
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros2-control ros-humble-gazebo-ros-pkgs ros-humble-ros-core
+          ros-humble-rosbridge-suite
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_19_job_65:
+    name: nav2-core costmap-queue rviz2 nav2-rviz-plugins nav2-collision-monitor
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_18_job_62
+    - stage_18_job_63
+    - stage_18_job_64
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-core ros-humble-costmap-queue ros-humble-rviz2 ros-humble-nav2-rviz-plugins
+        ros-humble-nav2-collision-monitor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-core ros-humble-costmap-queue ros-humble-rviz2
+          ros-humble-nav2-rviz-plugins ros-humble-nav2-collision-monitor
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_19_job_66:
+    name: rosbag2-py slam-toolbox ros2-controllers turtlebot3-gazebo
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_18_job_62
+    - stage_18_job_63
+    - stage_18_job_64
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-rosbag2-py ros-humble-slam-toolbox ros-humble-ros2-controllers
+        ros-humble-turtlebot3-gazebo
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-rosbag2-py ros-humble-slam-toolbox ros-humble-ros2-controllers
+          ros-humble-turtlebot3-gazebo
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_20_job_67:
+    name: dwb-core nav2-regulated-pure-pursuit-controller nav2-controller nav2-waypoint-follower
+      nav2-theta-star-planner
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_65
+    - stage_19_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-dwb-core ros-humble-nav2-regulated-pure-pursuit-controller
+        ros-humble-nav2-controller ros-humble-nav2-waypoint-follower ros-humble-nav2-theta-star-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-dwb-core ros-humble-nav2-regulated-pure-pursuit-controller
+          ros-humble-nav2-controller ros-humble-nav2-waypoint-follower ros-humble-nav2-theta-star-planner
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_20_job_68:
+    name: nav2-smoother nav2-smac-planner nav2-planner nav2-navfn-planner nav2-mppi-controller
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_65
+    - stage_19_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-smoother ros-humble-nav2-smac-planner ros-humble-nav2-planner
+        ros-humble-nav2-navfn-planner ros-humble-nav2-mppi-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-smoother ros-humble-nav2-smac-planner ros-humble-nav2-planner
+          ros-humble-nav2-navfn-planner ros-humble-nav2-mppi-controller
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_20_job_69:
+    name: nav2-constrained-smoother nav2-bt-navigator nav2-behaviors ros2bag rqt-bag
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_65
+    - stage_19_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-constrained-smoother ros-humble-nav2-bt-navigator
+        ros-humble-nav2-behaviors ros-humble-ros2bag ros-humble-rqt-bag
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-constrained-smoother ros-humble-nav2-bt-navigator
+          ros-humble-nav2-behaviors ros-humble-ros2bag ros-humble-rqt-bag
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_20_job_70:
+    name: ros-gz-sim-demos turtlebot3-bringup
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_65
+    - stage_19_job_66
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-ros-gz-sim-demos ros-humble-turtlebot3-bringup
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-ros-gz-sim-demos ros-humble-turtlebot3-bringup
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_21_job_71:
+    name: dwb-plugins dwb-critics nav2-rotation-shim-controller rosbag2-tests ros-ign-gazebo-demos
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_20_job_67
+    - stage_20_job_68
+    - stage_20_job_69
+    - stage_20_job_70
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-dwb-plugins ros-humble-dwb-critics ros-humble-nav2-rotation-shim-controller
+        ros-humble-rosbag2-tests ros-humble-ros-ign-gazebo-demos
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-dwb-plugins ros-humble-dwb-critics ros-humble-nav2-rotation-shim-controller
+          ros-humble-rosbag2-tests ros-humble-ros-ign-gazebo-demos
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_22_job_72:
+    name: nav2-dwb-controller rosbag2
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_21_job_71
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-dwb-controller ros-humble-rosbag2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-dwb-controller ros-humble-rosbag2
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_23_job_73:
+    name: navigation2 rqt-bag-plugins ros-base plotjuggler-ros
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_72
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-navigation2 ros-humble-rqt-bag-plugins ros-humble-ros-base
+        ros-humble-plotjuggler-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-navigation2 ros-humble-rqt-bag-plugins ros-humble-ros-base
+          ros-humble-plotjuggler-ros
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_24_job_74:
+    name: nav2-bringup rqt-common-plugins simulation perception
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_73
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-nav2-bringup ros-humble-rqt-common-plugins ros-humble-simulation
+        ros-humble-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-nav2-bringup ros-humble-rqt-common-plugins ros-humble-simulation
+          ros-humble-perception
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_25_job_75:
+    name: turtlebot3-navigation2 desktop turtlebot3 desktop-full
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_74
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-humble-turtlebot3-navigation2 ros-humble-desktop ros-humble-turtlebot3
+        ros-humble-desktop-full
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-humble-turtlebot3-navigation2 ros-humble-desktop ros-humble-turtlebot3
+          ros-humble-desktop-full
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+name: build_osx
+on:
+  push:
+    branches:
+    - buildbranch_osx
