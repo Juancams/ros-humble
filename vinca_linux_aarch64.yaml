@@ -79,6 +79,28 @@ packages_select_by_deps:
   - apriltag
   - apriltag_ros
 
+  - pmb2_gazebo
+  - pmb2_simulation
+  - tiago_navigation
+  - tiago_2dnav
+  - tiago_robot
+  - tiago_description
+  - tiago_laser_sensors
+  - tiago_moveit_config
+  - tiago_bringup  
+  - tiago_gazebo
+  - tiago_multi
+  - tiago_simulation
+  - tiago_controller_configuration
+  - pal_gripper_gazebo
+  - pal_bripper
+  - pal_gripper_controller_configuration
+  - pal_gripper_description
+  - play_motion2
+  - play_motion2_msgs
+  - hey5_description
+  - launch_pal
+
   # - moveit
   # - moveit_servo
 
